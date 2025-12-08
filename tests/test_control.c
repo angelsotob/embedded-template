@@ -1,32 +1,39 @@
 #include "unity.h"
+#include "cmock.h"
+/* ESTE include será mockeado */
+#include "mocks/Mockgpio.h"
+
 #include "control.h"
 
+/* Requerido por CMock: DEFINICIONES reales, no solo extern */
+int GlobalExpectCount;
+int GlobalVerifyOrder;
+char* GlobalOrderError;
+
+/* Unity las llama alrededor de cada test si usas el runner clásico;
+   aquí nosotros controlamos qué hace cada test, así que las dejamos vacías
+   o con setup/teardown si quieres más adelante. */
 void setUp(void) {}
 void tearDown(void) {}
 
-void test_control_clamp_limits_lower_bound(void)
+/* input >= 50 → LED ON */
+void test_control_turns_led_on(void)
 {
-    int result = control_clamp(-10);
-    TEST_ASSERT_EQUAL(0, result);
+    gpio_set_Expect(1, GPIO_HIGH);
+    control_update(80);
 }
 
-void test_control_clamp_limits_upper_bound(void)
+/* input < 50 → LED OFF */
+void test_control_turns_led_off(void)
 {
-    int result = control_clamp(120);
-    TEST_ASSERT_EQUAL(100, result);
-}
-
-void test_control_clamp_inside_range(void)
-{
-    int result = control_clamp(50);
-    TEST_ASSERT_EQUAL(50, result);
+    gpio_set_Expect(1, GPIO_LOW);
+    control_update(20);
 }
 
 int main(void)
 {
     UNITY_BEGIN();
-    RUN_TEST(test_control_clamp_limits_lower_bound);
-    RUN_TEST(test_control_clamp_limits_upper_bound);
-    RUN_TEST(test_control_clamp_inside_range);
+    RUN_TEST(test_control_turns_led_on);
+    RUN_TEST(test_control_turns_led_off);
     return UNITY_END();
 }
