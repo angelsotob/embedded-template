@@ -18,4 +18,4 @@ RUN rm -rf build && cmake -S . -B build
 RUN cmake --build build --config Release
 
 # 5. Comando por defecto: ejecutar tests
-CMD ["./build/tests/test_control"]
+CMD ["ctest", "--test-dir", "build", "--output-on-failure"]

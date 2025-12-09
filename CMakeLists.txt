@@ -5,6 +5,8 @@ set(CMAKE_C_STANDARD 99)
 
 add_compile_options(-Wall -Wextra -Werror)
 
+enable_testing()
+
 add_subdirectory(hal)
 add_subdirectory(domain)
 add_subdirectory(app)
