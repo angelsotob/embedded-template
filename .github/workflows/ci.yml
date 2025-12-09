@@ -24,4 +24,4 @@ jobs:
         run: cmake --build build --config Release
 
       - name: Run unit tests
-        run: ./build/tests/test_control
+        run: ctest --test-dir build --output-on-failure

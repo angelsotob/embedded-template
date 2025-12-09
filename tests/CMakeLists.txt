@@ -18,3 +18,8 @@ target_sources(test_control PRIVATE
     ${PROJECT_SOURCE_DIR}/external/Unity/src/unity.c
     ${PROJECT_SOURCE_DIR}/external/CMock/src/cmock.c
 )
+
+add_test(
+    NAME test_control
+    COMMAND test_control
+)
